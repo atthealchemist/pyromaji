@@ -8,8 +8,6 @@ from tkinter.ttk import *
 from tkinter.scrolledtext import ScrolledText
 
 from engine import TransliterationEngine
-from translators.russian import RussianTranslator
-
 from translators import TRANSLATORS
 
 
@@ -89,10 +87,10 @@ class Gui:
         self.log("Textboxes were cleared!")
 
     def convert(self):
-        src_text = self.textBoxSource.get("1.0", END)
-        lang = self.comboLanguage.get()
-        engine = TransliterationEngine(translator=TRANSLATORS[lang]())
-        converted = engine.to_romaji(src_text)
+        source_text = self.textBoxSource.get("1.0", END)
+        language = self.comboLanguage.get()
+        engine = TransliterationEngine(translator=TRANSLATORS[language]())
+        converted = engine.to_romaji(source_text)
 
         self.textBoxConverted.delete(1.0, END)
         self.textBoxConverted.insert(END, converted)
@@ -120,7 +118,7 @@ class Gui:
                 self.textBoxSource.insert(END, text)
                 self.log(f"Loaded: {file is not None} @ ({filepath})")
         except Exception as ex:
-            self.log(ex)
+            self.log(f"Error: {ex}")
 
     def saveFile(self):
         file = filedialog.asksaveasfile(mode='w', initialdir='.',
