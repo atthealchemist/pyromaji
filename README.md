@@ -18,11 +18,17 @@ Download latest version from *releases*.
 Don't remove `assets` folder with icon! Otherwise program won't work!
 
 `Load` - load contents from text file.
+
 `Convert` - converting loaded or written text to romaji.
+
 `Save to file` - saving converted text to file.
+
 `Clear` - deletes content from text fields.
+
 `Copy to clipboard` - push converted text to clipboard.
+
 You may choose preferred translator from dropdown list. *TODO: impl language autorecognizion*
+
 
 ## Supported languages
 - Russian
