@@ -1,0 +1,5 @@
+build/
+*.spec
+.vscode/
+__pycache__/
+*.txt
