@@ -3,18 +3,23 @@ from translators import TRANSLATORS
 
 import argparse
 
-parser = argparse.ArgumentParser(
-    description='Language to romaji convertion')
+parser = argparse.ArgumentParser(description='Language to romaji convertion')
 
 
 class PyRomaji:
-
     def _init_argparser(self):
-        parser.add_argument('-l', '--lang', action='store',
-                            default='en', help='language code')
-        parser.add_argument('-f', '--file', action='store',
+        parser.add_argument('-l',
+                            '--lang',
+                            action='store',
+                            default='en',
+                            help='language code')
+        parser.add_argument('-f',
+                            '--file',
+                            action='store',
                             help='path to text file to convert')
-        parser.add_argument('-i', '--input', action='store_true',
+        parser.add_argument('-i',
+                            '--input',
+                            action='store_true',
                             help='input mode')
 
     def main(self):
@@ -27,7 +32,8 @@ class PyRomaji:
         translator = TRANSLATORS[lang]
 
         engine = TransliterationEngine(translator=translator())
-        print("PyRomaji CLI v 0.1 - using \"{}\" translator".format(engine.translator.language_code))
+        print("PyRomaji CLI v 0.1 - using \"{}\" translator".format(
+            engine.translator.language_code))
 
         text = ''
 
@@ -36,7 +42,8 @@ class PyRomaji:
                 with open(file_path, 'r+', encoding="utf-8") as text_file:
                     text = text_file.read()
             except FileNotFoundError as ex:
-                print('The required file @ {} was not found!'.format(file_path))
+                print(
+                    'The required file @ {} was not found!'.format(file_path))
         if input_text:
             print("\nInput mode\n")
             text = input("Enter text in your native language: ")

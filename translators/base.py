@@ -5,4 +5,6 @@ class BaseTranslator:
         self.vowels = []
         self.consonants = []
         self.charmap = []
+        self.special = []
+        self.additional = []
         self.transliteration = {ord(c): ord(d) for c, d in zip(*self.charmap)}

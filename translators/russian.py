@@ -2,7 +2,6 @@ from .base import BaseTranslator
 
 
 class RussianTranslator(BaseTranslator):
-
     def transliterate(self, source_text):
         romaji = []
 
@@ -14,8 +13,10 @@ class RussianTranslator(BaseTranslator):
             if next_letter_in_range_of_text:
                 next_letter = source_text[idx + 1]
 
-                two_consonant_letters = letter in self.consonants and next_letter in self.consonants
-                consonant_ending_letters = letter in self.consonants or letter in self.special and next_letter == ' '
+                two_consonant_letters = letter in self.consonants \
+                    and next_letter in self.consonants
+                consonant_ending_letters = letter in self.consonants \
+                    or letter in self.special and next_letter == ' '
                 next_letter_is_vowel = next_letter in self.vowels
 
                 if two_consonant_letters or consonant_ending_letters:
@@ -36,6 +37,7 @@ class RussianTranslator(BaseTranslator):
         return ''.join(romaji)
 
     def __init__(self):
+        super().__init__()
 
         self.language_code = 'ru'
         self.additional = (
@@ -51,9 +53,10 @@ class RussianTranslator(BaseTranslator):
             ('цы', 'tsi'),
         )
         self.vowels = ('а', 'е', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я')
-        self.consonants = ('б', 'в', 'г', 'д', 'ж', 'з', 'й', 'к', 'л',
-                           'м', 'н', 'п', 'р', 'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш', 'щ')
+        self.consonants = ('б', 'в', 'г', 'д', 'ж', 'з', 'й', 'к', 'л', 'м',
+                           'н', 'п', 'р', 'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш',
+                           'щ')
         self.special = ('ъ', 'ь')
-        self.charmap = ("абвгдежзиклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЪЭЮЯ",
-                        "abbgdejzikrmnoprstufhцчшщ'i'euaABBGDEJZIKRMNOPRSTUFHЦЧШЦ'I'EUA")
-        self.transliteration = {ord(c): ord(d) for c, d in zip(*self.charmap)}
+        self.charmap = (
+            "абвгдежзиклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЪЭЮЯ",
+            "abbgdejzikrmnoprstufhцчшщ'i'euaABBGDEJZIKRMNOPRSTUFHЦЧШЦ'I'EUA")

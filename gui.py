@@ -12,7 +12,6 @@ from translators import TRANSLATORS
 
 
 class Gui:
-
     def __init__(self):
 
         self.root = tkinter.Tk()
@@ -21,13 +20,14 @@ class Gui:
         windowWidth = self.root.winfo_reqwidth()
         windowHeight = self.root.winfo_reqheight()
 
-        positionRight = int(
-            self.root.winfo_screenwidth() / 2 - windowWidth / 2)
-        positionDown = int(self.root.winfo_screenheight() /
-                           2 - windowHeight / 2)
+        positionRight = int(self.root.winfo_screenwidth() / 2 -
+                            windowWidth / 2)
+        positionDown = int(self.root.winfo_screenheight() / 2 -
+                           windowHeight / 2)
 
-        self.root.geometry(
-            "670x945+{width}+{height}".format(width=positionRight, height=positionDown))
+        self.root.geometry("670x945+{width}+{height}".format(
+            width=positionRight, height=positionDown))
+        self.root.resizable(FALSE, FALSE)
         self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
 
         self.root.title("PyRomaji GUI")
@@ -35,10 +35,15 @@ class Gui:
         labelSource = Label(self.root, text='Source text')
         labelSource.grid(column=0, row=0, padx=4, pady=4, sticky=N + S + E + W)
 
-        self.comboLanguage = Combobox(
-            self.root, values=list(TRANSLATORS.keys()), state="readonly")
+        self.comboLanguage = Combobox(self.root,
+                                      values=list(TRANSLATORS.keys()),
+                                      state="readonly")
         self.comboLanguage.grid(
-            column=1, row=0, sticky=W + E, padx=4, pady=4,
+            column=1,
+            row=0,
+            sticky=W + E,
+            padx=4,
+            pady=4,
         )
         self.comboLanguage.current(0)
 
@@ -46,37 +51,60 @@ class Gui:
         buttonLoad.grid(column=2, row=0, padx=4, pady=4, sticky=N + S + E + W)
 
         self.textBoxSource = ScrolledText(self.root, width=50)
-        self.textBoxSource.grid(column=0, columnspan=3,
-                                row=1, padx=4, pady=4, sticky=N + S + E + W)
+        self.textBoxSource.grid(column=0,
+                                columnspan=3,
+                                row=1,
+                                padx=4,
+                                pady=4,
+                                sticky=N + S + E + W)
 
         labelConverted = Label(self.root, text='Converted text')
-        labelConverted.grid(column=0, row=3, padx=4,
-                            pady=4, sticky=N + S + E + W)
+        labelConverted.grid(column=0,
+                            row=3,
+                            padx=4,
+                            pady=4,
+                            sticky=N + S + E + W)
 
         self.textBoxConverted = ScrolledText(self.root)
-        self.textBoxConverted.grid(
-            column=0, columnspan=3, row=4, padx=4, pady=4, sticky=N + S + E + W)
+        self.textBoxConverted.grid(column=0,
+                                   columnspan=3,
+                                   row=4,
+                                   padx=4,
+                                   pady=4,
+                                   sticky=N + S + E + W)
 
         buttonConvert = Button(self.root, text="Convert", command=self.convert)
-        buttonConvert.grid(column=0, columnspan=3, row=2, padx=4,
-                           pady=4, sticky=N + S + E + W)
+        buttonConvert.grid(column=0,
+                           columnspan=3,
+                           row=2,
+                           padx=4,
+                           pady=4,
+                           sticky=N + S + E + W)
 
         buttonClear = Button(self.root, text="Clear", command=self.clear)
         buttonClear.grid(column=0, row=5, padx=4, pady=4, sticky=N + S + E + W)
 
-        buttonSave = Button(self.root, text="Save to file",
+        buttonSave = Button(self.root,
+                            text="Save to file",
                             command=self.saveFile)
         buttonSave.grid(column=1, row=5, padx=4, pady=4, sticky=N + S + E + W)
 
-        buttonClipboard = Button(
-            self.root, text="Copy to clipboard", command=self.copyToClipboard)
-        buttonClipboard.grid(column=2, row=5, padx=4,
-                             pady=4, sticky=N + S + E + W)
+        buttonClipboard = Button(self.root,
+                                 text="Copy to clipboard",
+                                 command=self.copyToClipboard)
+        buttonClipboard.grid(column=2,
+                             row=5,
+                             padx=4,
+                             pady=4,
+                             sticky=N + S + E + W)
 
-        self.status = Label(self.root, text="",
-                            relief=SUNKEN, anchor=W)
-        self.status.grid(column=0, columnspan=3, row=6,
-                         padx=4, pady=4, sticky=N + S + E + W)
+        self.status = Label(self.root, text="", relief=SUNKEN, anchor=W)
+        self.status.grid(column=0,
+                         columnspan=3,
+                         row=6,
+                         padx=4,
+                         pady=4,
+                         sticky=N + S + E + W)
 
     def log(self, text):
         self.status.config(text=text)
@@ -87,7 +115,7 @@ class Gui:
         self.log("Textboxes were cleared!")
 
     def convert(self):
-        source_text = self.textBoxSource.get("1.0", END)
+        source_text = self.textBoxSource.get("1.0", 'end-1c')
         language = self.comboLanguage.get()
         engine = TransliterationEngine(translator=TRANSLATORS[language]())
         converted = engine.to_romaji(source_text)
@@ -121,16 +149,16 @@ class Gui:
             self.log(f"Error: {ex}")
 
     def saveFile(self):
-        file = filedialog.asksaveasfile(mode='w', initialdir='.',
-                                      title="Save text file as",
-                                      defaultextension="*.txt")
+        file = filedialog.asksaveasfile(mode='w',
+                                        initialdir='.',
+                                        title="Save text file as",
+                                        defaultextension="*.txt")
         if file is None:
             return
         text = self.textBoxConverted.get(1.0, END)
         file.write(text)
         file.close()
         self.log(f"Saved converted text in file!")
-
 
 
 def main():

@@ -1,19 +1,21 @@
 import csv
 
-class TransliterationEngine:
 
+class TransliterationEngine:
     def __init__(self, translator):
         self.translator = translator
 
     def _get_replacements(self):
         replacements = []
-        with open('assets/syllables_{lang}.csv'.format(lang=self.translator.language_code), encoding="utf-8") as csv_file:
+        with open('assets/syllables_{lang}.csv'.format(
+                lang=self.translator.language_code),
+                  encoding="utf-8") as csv_file:
             reader = csv.reader(csv_file, delimiter=';')
             for idx, row in enumerate(reader):
                 if idx < 1:
                     continue
                 replacements.append(row)
-        
+
         return tuple(replacements)
 
     def from_romaji(self, source_text):
@@ -29,4 +31,5 @@ class TransliterationEngine:
 
         romaji = self.translator.transliterate(source_text)
         translated = romaji.translate(self.translator.transliteration)
+
         return translated.replace("\'", "")
