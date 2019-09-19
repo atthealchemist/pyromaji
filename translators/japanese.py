@@ -3,25 +3,27 @@ from translators.base import BaseTranslator
 
 
 class JapaneseTranslator(BaseTranslator):
-    def transliterate(self, source_text):
+    def transliterate(self, word):
         romaji = []
-        source_text = source_text.translate(self.transliteration)
+        word = word.translate(self.transliteration)
 
-        for idx, letter in enumerate(source_text):
-            next_letter_in_range_of_text = idx + 1 < len(source_text)
+        for idx, letter in enumerate(word):
+            next_letter_in_range_of_text = idx + 1 < len(word)
             if next_letter_in_range_of_text:
                 syllable = letter
-                next_letter = source_text[idx + 1]
+                next_letter = word[idx + 1]
 
                 if syllable:
 
-                    current_letter_is_consonant = letter in self.consonants
-                    next_letter_is_consonant = next_letter in self.consonants
+                    current_letter_is_consonant = letter.lower(
+                    ) in self.consonants
+                    next_letter_is_consonant = next_letter.lower(
+                    ) in self.consonants
 
-                    current_letter_is_vowel = letter in self.vowels
-                    next_letter_is_vowel = next_letter in self.vowels
+                    current_letter_is_vowel = letter.lower() in self.vowels
+                    next_letter_is_vowel = next_letter.lower() in self.vowels
 
-                    next_letter_is_end_of_word = next_letter == ' '
+                    next_letter_is_end_of_word = next_letter.lower() == ' '
 
                     two_consonant_letters = current_letter_is_consonant \
                         and next_letter_is_consonant
@@ -30,7 +32,7 @@ class JapaneseTranslator(BaseTranslator):
                     vowel_ending_letters = current_letter_is_vowel \
                         and next_letter_is_end_of_word
                     next_letter_is_same = next_letter == letter
-                    stripped_syllable = syllable.strip()
+                    stripped_syllable = syllable.lower().strip()
 
                     if current_letter_is_vowel:
                         continue
@@ -63,6 +65,7 @@ class JapaneseTranslator(BaseTranslator):
     def __init__(self):
         super().__init__()
 
+        self.language_code = 'jp'
         self.mode = 'hiragana'
         self.vowels = ('a', 'u', 'i', 'o', 'e')
         self.consonants = ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',

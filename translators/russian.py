@@ -2,22 +2,21 @@ from .base import BaseTranslator
 
 
 class RussianTranslator(BaseTranslator):
-    def transliterate(self, source_text):
+    def transliterate(self, word):
         romaji = []
 
-        source_text = source_text.lower()
-
-        for idx, letter in enumerate(source_text):
+        for idx, letter in enumerate(word):
             syllable = letter
-            next_letter_in_range_of_text = idx + 1 < len(source_text)
+            next_letter_in_range_of_text = idx + 1 < len(word)
             if next_letter_in_range_of_text:
-                next_letter = source_text[idx + 1]
+                next_letter = word[idx + 1]
 
-                two_consonant_letters = letter in self.consonants \
-                    and next_letter in self.consonants
-                consonant_ending_letters = letter in self.consonants \
-                    or letter in self.special and next_letter == ' '
-                next_letter_is_vowel = next_letter in self.vowels
+                two_consonant_letters = letter.lower() in self.consonants \
+                    and next_letter.lower() in self.consonants
+                consonant_ending_letters = letter.lower() in self.consonants \
+                    or letter.lower() in self.special \
+                    and next_letter.lower() == ' '
+                next_letter_is_vowel = next_letter.lower() in self.vowels
 
                 if two_consonant_letters or consonant_ending_letters:
                     syllable = letter + 'у'
@@ -25,7 +24,7 @@ class RussianTranslator(BaseTranslator):
                     syllable = letter
             else:
                 # last letter in text
-                if letter in self.consonants:
+                if letter.lower() in self.consonants:
                     syllable = letter + 'у'
 
             for char, replacement in self.additional:
@@ -60,3 +59,4 @@ class RussianTranslator(BaseTranslator):
         self.charmap = (
             "абвгдежзиклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЪЭЮЯ",
             "abbgdejzikrmnoprstufhцчшщ'i'euaABBGDEJZIKRMNOPRSTUFHЦЧШЦ'I'EUA")
+        self.transliteration = {ord(c): ord(d) for c, d in zip(*self.charmap)}

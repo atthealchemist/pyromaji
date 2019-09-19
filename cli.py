@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Language to romaji convertion')
 
 
 class PyRomaji:
-    def _init_argparser(self):
+    def _configure_args(self):
         parser.add_argument('-l',
                             '--lang',
                             action='store',
@@ -58,7 +58,7 @@ class PyRomaji:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
             description='Language to romaji convertion')
-        self._init_argparser()
+        self._configure_args()
         self.main()
 
 

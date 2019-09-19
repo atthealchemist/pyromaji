@@ -2,21 +2,19 @@ from .base import BaseTranslator
 
 
 class EnglishTranslator(BaseTranslator):
-    def transliterate(self, source_text):
+    def transliterate(self, word):
         romaji = []
 
-        source_text = source_text.lower()
+        # source_text = source_text.lower()
 
-        for idx, letter in enumerate(source_text):
+        for idx, letter in enumerate(word):
             syllable = letter
-            next_letter_in_range_of_text = idx + 1 < len(source_text)
+            next_letter_in_range_of_text = idx + 1 < len(word)
             if next_letter_in_range_of_text:
-                next_letter = source_text[idx + 1]
+                next_letter = word[idx + 1]
 
-                two_consonant_letters = letter in self.consonants \
-                    and next_letter in self.consonants
-                consonant_ending_letters = letter in self.consonants \
-                    or letter in self.special and next_letter == ' '
+                two_consonant_letters = letter in self.consonants and next_letter in self.consonants
+                consonant_ending_letters = letter in self.consonants or letter in self.special and next_letter == ' '
                 next_letter_is_vowel = next_letter in self.vowels
 
                 if two_consonant_letters or consonant_ending_letters:
@@ -34,7 +32,11 @@ class EnglishTranslator(BaseTranslator):
 
             romaji.append(syllable)
 
-        return ''.join(romaji)
+        translated = ''.join(romaji)
+
+        translated = translated.replace('l', 'r')
+
+        return translated
 
     def __init__(self):
         super().__init__()

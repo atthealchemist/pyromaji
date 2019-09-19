@@ -115,12 +115,13 @@ class Gui:
         self.log("Textboxes were cleared!")
 
     def convert(self):
+        self.textBoxConverted.delete(1.0, END)
+
         source_text = self.textBoxSource.get("1.0", 'end-1c')
         language = self.comboLanguage.get()
         engine = TransliterationEngine(translator=TRANSLATORS[language]())
         converted = engine.to_romaji(source_text)
 
-        self.textBoxConverted.delete(1.0, END)
         self.textBoxConverted.insert(END, converted)
 
         self.log("Successfully converted!")
