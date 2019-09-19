@@ -1,6 +1,8 @@
 import tkinter
 import os
 
+from datetime import datetime
+
 from tkinter import *
 from tkinter import filedialog
 from tkinter.ttk import *
@@ -112,7 +114,7 @@ class Gui:
                          sticky=N + S + E + W)
 
     def log(self, text):
-        self.status.config(text=text)
+        self.status.config(text='[{time}] {text}'.format(time=datetime.now().time().strftime('%H:%M:%S'), text=text))
 
     def clear(self):
         self.textBoxConverted.delete(1.0, END)
@@ -159,7 +161,7 @@ class Gui:
                                         initialdir='.',
                                         title="Save text file as",
                                         defaultextension="*.txt")
-        if file is None:
+        if not file:
             return
         text = self.textBoxConverted.get(1.0, END)
         file.write(text)
