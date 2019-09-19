@@ -15,22 +15,27 @@ class Gui:
     def __init__(self):
 
         self.root = tkinter.Tk()
-        self.root.iconbitmap(r'{}/assets/pyromaji.ico'.format(os.getcwd()))
 
-        windowWidth = self.root.winfo_reqwidth()
-        windowHeight = self.root.winfo_reqheight()
+        current_working_dir = os.getcwd()
+        self.root.iconbitmap('{root_dir}/assets/pyromaji.ico'.format(
+            root_dir=current_working_dir))
+
+        width = 670
+        height = 945
 
         positionRight = int(self.root.winfo_screenwidth() / 2 -
-                            windowWidth / 2)
+                            width / 2)
         positionDown = int(self.root.winfo_screenheight() / 2 -
-                           windowHeight / 2)
+                           height / 2)
 
-        self.root.geometry("670x945+{width}+{height}".format(
-            width=positionRight, height=positionDown))
+        self.root.geometry("{width}x{height}+{x}+{y}".format(width=width,
+                                                             height=height,
+                                                             x=positionRight,
+                                                             y=positionDown))
         self.root.resizable(FALSE, FALSE)
         self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
 
-        self.root.title("PyRomaji GUI")
+        self.root.title("PyRomaji")
 
         labelSource = Label(self.root, text='Source text')
         labelSource.grid(column=0, row=0, padx=4, pady=4, sticky=N + S + E + W)

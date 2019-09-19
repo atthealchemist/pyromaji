@@ -22,7 +22,7 @@ class TransliterationEngine:
                 romaji = self.translator.transliterate(word)
                 translated = romaji.translate(self.translator.transliteration)
                 result.append(translated)
-            
+
             translated = SPACE_CHAR.join(result).lstrip()
         else:
             romaji = self.translator.transliterate(text)
